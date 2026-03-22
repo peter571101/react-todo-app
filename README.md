@@ -1,73 +1,37 @@
-# React + TypeScript + Vite
+在线预览链接:<https://peter571101.github.io/react-todo-app>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### 核心功能
 
-Currently, two official plugins are available:
+①**基础增删改查**：支持添加任务、编辑名称以及单项或批量删除。
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+②**状态切换**：可以手动标记任务为“已完成”或“待完成”，不同状态会有不同的视觉反馈。
 
-## React Compiler
+③**时间记录**：利用 `dayjs` 库记录了每个任务的创建时间和最后修改时间。
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+④**交互弹窗**：使用 React Portal 思想实现了自定义模态框，用于二次确认删除和编辑内容，防止误操作。
 
-## Expanding the ESLint configuration
+### 技术实现
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+①**框架**：React + TypeScript (确保代码逻辑更严谨)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+②**样式**：Tailwind CSS (响应式布局，适配了不同尺寸的屏幕)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+③**图标**：Lucide React (简洁的矢量图标)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+④**工具**：`clsx` 和 `tailwind-merge` 用于处理复杂的动态类名。
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 本地运行
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+①下载代码到本地。
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+②在终端运行 `npm install` 安装必要的依赖包。
+
+③运行 `npm run dev` 即可在浏览器预览。
+
+④如需部署到 GitHub Pages，请确保在 `vite.config.ts` 中配置正确的 `base` 路径，然后执行 `npm run deploy`。
+
+### 待改进的地方
+
+①目前数据存储在内存中，页面刷新后会重置，后续计划接入 `localStorage` 实现持久化存储。
+
+②计划增加任务优先级分类（高、中、低）。
