@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { type ClassValue, clsx } from "clsx";
 import { Plus, Trash2, Lock, LockOpen, Clock, Pencil, X } from "lucide-react";
 import { twMerge } from "tailwind-merge";
@@ -39,11 +39,22 @@ const Modal = ({ isOpen, onClose, title, children }: any) => {
 
 export default function App() {
   const [inputValue, setInputValue] = useState("");
-  const [todos, setTodos] = useState<Todo[]>([]);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [editingTodo, setEditingTodo] = useState<Todo | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [todoToDelete, setTodoToDelete] = useState<string | null>(null);
+  const [todos, setTodos] = useState<Todo[]>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("todo-list-data");
+      return saved ? JSON.parse(saved) : [];
+    }
+    return [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("todo-list-data", JSON.stringify(todos));
+  }, [todos]);
+
   const handleAdd = (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputValue.trim()) return;
@@ -101,24 +112,26 @@ export default function App() {
     setTodoToDelete(id);
     setIsDeleteModalOpen(true);
   };
-  
-const saveEdit = () => {
-  if(!editingTodo) return;
-  setTodos(
-    todos.map((t) => 
-    t.id === editingTodo.id ? {...editingTodo,updatedAt:dayjs().format("YYYY/MM/DD HH:mm:ss")}
-  :t,)
-  );
-  setEditingTodo(null);
-}
 
-const handleDelete = () => {
-  if(todoToDelete){
-    setTodos(todos.filter((t) => t.id !== todoToDelete));
-    setIsDeleteModalOpen(false);
-    setTodoToDelete(null);
-  }
-}
+  const saveEdit = () => {
+    if (!editingTodo) return;
+    setTodos(
+      todos.map((t) =>
+        t.id === editingTodo.id
+          ? { ...editingTodo, updatedAt: dayjs().format("YYYY/MM/DD HH:mm:ss") }
+          : t,
+      ),
+    );
+    setEditingTodo(null);
+  };
+
+  const handleDelete = () => {
+    if (todoToDelete) {
+      setTodos(todos.filter((t) => t.id !== todoToDelete));
+      setIsDeleteModalOpen(false);
+      setTodoToDelete(null);
+    }
+  };
   const completedCount = todos.filter((t) => t.status === "completed").length;
 
   return (
