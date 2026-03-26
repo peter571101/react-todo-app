@@ -1,9 +1,9 @@
 import "./App.css";
 import { useTodoStore } from "./stores/useTodoStore";
-import  TodoForm  from "./components/TodoForm";
-import  TodoStats  from "./components/TodoStats";
-import  TodoTable  from "./components/TodoTable";
-import  Modal  from "./components/Modal";
+import TodoForm from "./components/TodoForm";
+import TodoStats from "./components/TodoStats";
+import TodoTable from "./components/TodoTable";
+import Modal from "./components/Modal";
 import { Trash2 } from "lucide-react";
 
 function App() {
@@ -21,7 +21,7 @@ function App() {
       <div className="w-full max-w-5xl bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow border border-white/50">
         <div className="p-8">
           <h1 className="text-4xl text-center font-extrabold mb-10 bg-linear-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-            待办事项清单
+            待办事项清单ToDoList
           </h1>
           <TodoForm />
           <TodoStats />
@@ -43,8 +43,8 @@ function App() {
               type="text"
               value={editingTodo?.name || ""}
               onChange={(e) =>
-               editingTodo && setEditingTodo({ ...editingTodo, name: e.target.value })
-                
+                editingTodo &&
+                setEditingTodo({ ...editingTodo, name: e.target.value })
               }
               className="w-full h-12 px-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all"
             />
