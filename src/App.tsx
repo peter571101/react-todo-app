@@ -43,9 +43,8 @@ function App() {
               type="text"
               value={editingTodo?.name || ""}
               onChange={(e) =>
-                setEditingTodo((prev) =>
-                  prev ? { ...prev, name: e.target.value } : null,
-                )
+               editingTodo && setEditingTodo({ ...editingTodo, name: e.target.value })
+                
               }
               className="w-full h-12 px-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all"
             />
